@@ -17,12 +17,26 @@ def calcular_total_tienda(ventas, tienda_id, con_iva=True):
     """Calcula el total de ventas de una tienda (con IVA por defecto)."""
     total = 0
     for venta in ventas:
+
         if venta["tienda"] == tienda_id:
             total += venta["cantidad"] * venta["precio"]
     if con_iva:
         from config import IVA
         total *= (1 + IVA)
     return total
+
+# ana añade esta fucnió a pipeline
+def resumen_por_producto(ventas):
+    resumen = {}
+    for venta in ventas:
+        producto = venta['producto']
+        ingreso = venta['cantidad'] * venta['precio']
+        if producto in resumen:
+            resumen[producto] += ingreso
+        else:
+            resumen[producto] = ingreso
+        return resumen
+
 
 if __name__ == "__main__":
     ventas = cargar_ventas("ventas_2024_01.csv")
