@@ -11,14 +11,18 @@ def cargar_ventas(archivo):
         {"tienda": "T002", "producto": "Huevos", "cantidad": 75, "precio": 2.50},
     ]
     return ventas
+# Pedro MODIFICA  la fucnió calcular_total_tienda pipeline
 
-def calcular_total_tienda(ventas, tienda_id):
-    """Calculo el total de ventas en la tienda"""
+def calcular_total_tienda(ventas, tienda_id, con_iva=True):
+    """Calcula el total de ventas de una tienda (con IVA por defecto)."""
     total = 0
     for venta in ventas:
-        if venta['tienda'] == tienda_id:
-            total += venta['cantidad'] * venta['precio']
-        return total
+        if venta["tienda"] == tienda_id:
+            total += venta["cantidad"] * venta["precio"]
+    if con_iva:
+        from config import IVA
+        total *= (1 + IVA)
+    return total
 
 if __name__ == "__main__":
     ventas = cargar_ventas("ventas_2024_01.csv")
