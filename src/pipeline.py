@@ -19,6 +19,18 @@ def calcular_total_tienda(ventas, tienda_id):
         if venta['tienda'] == tienda_id:
             total += venta['cantidad'] * venta['precio']
         return total
+    
+# ana añade esta fucnió a pipeline
+def resumen_por_producto(ventas):
+    resumen = {}
+    for venta in ventas:
+        producto = venta['producto']
+        ingreso = venta['cantidad'] * venta['precio']
+        if producto in resumen:
+            resumen[producto] += ingreso
+        else:
+            resumen[producto] = ingreso
+        return resumen
 
 if __name__ == "__main__":
     ventas = cargar_ventas("ventas_2024_01.csv")
